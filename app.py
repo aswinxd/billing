@@ -27,6 +27,7 @@ def send_whatsapp_message(number, message):
         }
     }
     response = requests.post(url, headers=headers, json=payload)
+    print(f"API Response: {response.json()}")  # Log the response for debugging
     return response.json()
 
 
@@ -40,7 +41,8 @@ def send_bill():
     bill_message = f"Hello! Here is your bill:\n\n{item_details}\n\nTotal: {total_amount}\nThank you for your business!"
     response = send_whatsapp_message(customer_number, bill_message)
 
-    if response.get("messages"):
+    # Check the response to determine if the message was sent
+    if "messages" in response:
         return jsonify({"message": "Bill sent successfully!"})
     else:
         return jsonify({"message": "Failed to send bill.", "error": response}), 400
