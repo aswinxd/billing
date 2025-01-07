@@ -23,7 +23,8 @@ def send_whatsapp_message(number, message):
     response = requests.post(url, headers=headers, json=payload)
     return response.json()
 
-@app.route('/send-bill', methods=['POST'])
+
+@app.route('/')
 def send_bill():
     data = request.json
     customer_number = data['customerNumber']
