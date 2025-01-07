@@ -7,6 +7,11 @@ app = Flask(__name__)
 ACCESS_TOKEN = "EAASlPe5YthwBO3KG926GZCpkdBNkDAtp2noWycJZA81gP5F7URezL4rHRSrEGl5DYeXJRJjZCOU43AGlZCR01SxZBNiZCnJikuPQqmrOoeLGF1FtgXIKFJQWuxktNdBLnu0O337hnQlRsZAOxBCi4DjQZAO0OA6WZCeXfZBDjtmJVjXqTJD7GoLYHDBFs2kAaMl5dEZBrk8401nrkmBAv9OGBkZAX4dGx02n"
 PHONE_NUMBER_ID = "529601030236944"
 
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 def send_whatsapp_message(number, message):
     url = f"https://graph.facebook.com/v17.0/{PHONE_NUMBER_ID}/messages"
     headers = {
@@ -23,9 +28,7 @@ def send_whatsapp_message(number, message):
     }
     response = requests.post(url, headers=headers, json=payload)
     return response.json()
-@app.route('/')
-def index():
-    return render_template(index.html)
+
 
 @app.route('/send-bill', methods=['POST'])
 def send_bill():
