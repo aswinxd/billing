@@ -22,72 +22,9 @@ def send_whatsapp_message(number, message):
     }
     response = requests.post(url, headers=headers, json=payload)
     return response.json()
-
-INDEX_HTML = """
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Billing App</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        input, button {
-            margin: 10px 0;
-            padding: 10px;
-            width: 100%;
-        }
-        button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-        }
-    </style>
-</head>
-<body>
-    <h1>Billing App</h1>
-    <form id="billForm">
-        <label for="customerNumber">Customer WhatsApp Number:</label>
-        <input type="text" id="customerNumber" placeholder="Enter WhatsApp Number" required>
-
-        <label for="itemDetails">Item Details:</label>
-        <textarea id="itemDetails" placeholder="Enter item details here" rows="5" required></textarea>
-
-        <label for="totalAmount">Total Amount:</label>
-        <input type="text" id="totalAmount" placeholder="Enter total amount" required>
-
-        <button type="button" onclick="sendBill()">Send Bill</button>
-    </form>
-    <p id="response"></p>
-    <script>
-        async function sendBill() {
-            const customerNumber = document.getElementById('customerNumber').value;
-            const itemDetails = document.getElementById('itemDetails').value;
-            const totalAmount = document.getElementById('totalAmount').value;
-
-            const responseElement = document.getElementById('response');
-            responseElement.textContent = "Sending...";
-
-            const response = await fetch('/send-bill', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ customerNumber, itemDetails, totalAmount })
-            });
-
-            const result = await response.json();
-            responseElement.textContent = result.message || "Bill sent successfully!";
-        }
-    </script>
-</body>
-</html>
-
-"""
 @app.route('/')
 def index():
-    return render_template_string(INDEX_HTML)
+    return render_template(index.html)
 
 @app.route('/send-bill', methods=['POST'])
 def send_bill():
